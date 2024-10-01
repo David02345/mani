@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mani</name>
+  <version>0.0.1</version>
+  <description>Gazebo 시뮬레이션에서 매니퓰레이션을 제어하는 C++ 노드 패키지입니다.</description>
+  <maintainer email="02william02@hanmail.net">ydg</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- 빌드 도구 의존성 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- 빌드 시 필요한 의존성 -->
+  <build_depend>rclcpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>eigen3_cmake_module</build_depend>
+  <build_depend>Eigen3</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>controller_manager</build_depend>
+  <build_depend>robot_state_publisher</build_depend>
+  <build_depend>xacro</build_depend>
+
+  <!-- 실행 시 필요한 의존성 -->
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>trajectory_msgs</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>eigen3_cmake_module</exec_depend>
+  <exec_depend>Eigen3</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tf2_geometry_msgs</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <!-- 테스트 의존성 -->
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_cppcheck</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
