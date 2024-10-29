@@ -317,7 +317,7 @@ private:
 
 int main(int argc, char *argv[])
 {
-    rclcpp::init(argc, argv);
+    rclcpp::init(argc, argv);   // tested
     auto node = make_shared<ManipulatorController>();
     rclcpp::spin(node);
     rclcpp::shutdown();
