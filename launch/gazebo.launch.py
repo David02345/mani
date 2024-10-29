@@ -17,8 +17,9 @@ def generate_launch_description():
     robot_urdf = robot_description_config.toxml()
     robot_controllers = "/home/ydg/mani_ws/src/mani/config/ros2_controllers.yaml"
 
-    # GUI 옵션 설정
-    gui_arg = DeclareLaunchArgument(name='gui', default_value='True')
+    iiwa_simulation_world = PathJoinSubstitution(
+        [share_dir, 'worlds', 'empty.world']
+    )
 
     # 로봇 상태 퍼블리셔
     robot_state_publisher_node = Node(
@@ -28,32 +29,29 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_urdf, 'use_sim_time': True}]
     )
 
-    # 조인트 상태 퍼블리셔
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        parameters=[{'use_sim_time': True}]
-    )
-
-    # Gazebo 서버 실행
-    gazebo_server = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([PathJoinSubstitution([FindPackageShare('gazebo_ros'), 'launch', 'gzserver.launch.py'])]),
-        launch_arguments={'pause': 'true'}.items()
-    )
-
-    # Gazebo 클라이언트 실행
-    gazebo_client = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([PathJoinSubstitution([FindPackageShare('gazebo_ros'), 'launch', 'gzclient.launch.py'])])
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathJoinSubstitution(
+                [FindPackageShare('gazebo_ros'),
+                    'launch', 'gazebo.launch.py']
+            )]
+        ),
+        launch_arguments={'verbose': 'false', 'world': iiwa_simulation_world}.items(),
     )
 
     # Gazebo에 URDF 스폰
     urdf_spawn_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        arguments=['-entity', '6dof_mani', '-topic', 'robot_description'],
-        output='screen'
-    )
+    package='gazebo_ros',
+    executable='spawn_entity.py',
+    arguments=[
+        '-entity', '6dof_mani',
+        '-topic', 'robot_description',
+        '-x', '0.0',
+        '-y', '0.0',
+        '-z', '0.0' 
+    ],
+    output='screen'
+)
 
     # 컨트롤러 매니저 실행
     controller_manager = Node(
@@ -83,7 +81,7 @@ def generate_launch_description():
     # 컨트롤러 스폰 순서 설정
     delay_joint_state_controller_spawner_after_controller_manager = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=controller_manager,
+            target_action=urdf_spawn_node,
             on_exit=[joint_state_controller_spawner],
         )
     )
@@ -96,13 +94,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        gui_arg,
         robot_state_publisher_node,
-        joint_state_publisher_node,
-        gazebo_server,
-        gazebo_client,
+        gazebo,
         urdf_spawn_node,
         # controller_manager,
-        joint_state_controller_spawner,
-        position_controller_spawner
+        delay_joint_state_controller_spawner_after_controller_manager,
+        delay_position_controller_spawner_after_joint_state_controller_spawner
     ])

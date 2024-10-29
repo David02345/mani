@@ -4,10 +4,10 @@
 <transmission name="Slider_1_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Slider_1">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Slider_1_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -15,10 +15,10 @@
 <transmission name="Slider_2_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Slider_2">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Slider_2_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -26,10 +26,10 @@
 <transmission name="Revolute_1_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_1">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_1_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -37,10 +37,10 @@
 <transmission name="Revolute_2_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_2">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_2_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -48,10 +48,10 @@
 <transmission name="Revolute_3_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_3">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_3_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -59,10 +59,10 @@
 <transmission name="Revolute_4_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_4">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_4_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -70,10 +70,10 @@
 <transmission name="Revolute_5_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_5">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_5_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -81,10 +81,10 @@
 <transmission name="Revolute_6_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Revolute_6">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
   </joint>
   <actuator name="Revolute_6_actr">
-    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <hardwareInterface>Position</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>

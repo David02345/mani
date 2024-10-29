@@ -5,7 +5,8 @@
 
 <gazebo>
   <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-    <parameters>$(find mani)/config/ros2_controllers.yaml</parameters>
+    <robotNamespace>/</robotNamespace>
+    <parameters>/home/ydg/mani_ws/src/mani/config/ros2_controllers.yaml</parameters>
   </plugin>
 </gazebo>
 
@@ -15,7 +16,7 @@
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <self_collide>true</self_collide>
-  <gravity>true</gravity>
+  <gravity>0</gravity>
 </gazebo>
 
 <gazebo reference="link_8_1">

@@ -7,9 +7,13 @@
   <material name="silver">
     <color rgba="0.700 0.700 0.700 1.000"/>
   </material>
+  <material name="white">
+    <color rgba="1.00 1.00 1.00 1.000"/>
+  </material>
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <parameters>/home/ydg/mani_ws/install/mani/share/mani/config/ros2_controllers.yaml</parameters>
+      <robotNamespace>/</robotNamespace>
+      <parameters>/home/ydg/mani_ws/src/mani/config/ros2_controllers.yaml</parameters>
     </plugin>
   </gazebo>
   <gazebo reference="base_link">
@@ -17,7 +21,7 @@
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <self_collide>true</self_collide>
-    <gravity>true</gravity>
+    <gravity>0</gravity>
   </gazebo>
   <gazebo reference="link_8_1">
     <material>Gazebo/Silver</material>
@@ -73,7 +77,87 @@
     <mu2>0.2</mu2>
     <self_collide>true</self_collide>
   </gazebo>
-  <!-- <xacro:include filename="/home/ydg/mani_ws/src/mani/urdf/6dof_mani.trans" />  -->
+  <transmission name="Slider_1_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Slider_1">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Slider_1_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Slider_2_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Slider_2">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Slider_2_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_1_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_1">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_1_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_2_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_2">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_2_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_3_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_3">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_3_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_4_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_4">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_4_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_5_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_5">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_5_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="Revolute_6_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Revolute_6">
+      <hardwareInterface>Position</hardwareInterface>
+    </joint>
+    <actuator name="Revolute_6_actr">
+      <hardwareInterface>Position</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <link name="world"/>
   <link name="base_link">
     <inertial>
       <origin rpy="0 0 0" xyz="2.149744881531404e-17 2.149744881531404e-17 0.22234748143971175"/>
@@ -94,6 +178,11 @@
       </geometry>
     </collision>
   </link>
+  <joint name="fixed_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
   <link name="link_8_1">
     <inertial>
       <origin rpy="0 0 0" xyz="-0.039340998690695 7.58658880162244e-09 -0.05486038510225294"/>
@@ -293,28 +382,28 @@
     <parent link="link_6_1"/>
     <child link="link_7_1"/>
     <axis xyz="0.0 0.0 -1.0"/>
-    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
+    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
   </joint>
   <joint name="Revolute_5" type="revolute">
     <origin rpy="0 0 0" xyz="0.03 0.0 -0.08"/>
     <parent link="link_5_1"/>
     <child link="link_6_1"/>
     <axis xyz="-1.0 0.0 0.0"/>
-    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
+    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
   </joint>
   <joint name="Revolute_4" type="revolute">
     <origin rpy="0 0 0" xyz="0.0 0.0 -0.4"/>
     <parent link="link_4_1"/>
     <child link="link_5_1"/>
     <axis xyz="0.0 0.0 -1.0"/>
-    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
+    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
   </joint>
   <joint name="Revolute_3" type="revolute">
     <origin rpy="0 0 0" xyz="-0.2 0.0 0.0"/>
     <parent link="link_3_1"/>
     <child link="link_4_1"/>
     <axis xyz="-1.0 0.0 0.0"/>
-    <limit effort="100" lower="-3.141593" upper="0.0" velocity="100"/>
+    <limit effort="100" lower="-4.71" upper="1.2" velocity="100"/>
   </joint>
   <joint name="Rigid_7" type="fixed">
     <origin rpy="0 0 0" xyz="0.0 0.5 0.0"/>
@@ -326,61 +415,54 @@
     <parent link="link_1_1"/>
     <child link="link_2_1"/>
     <axis xyz="1.0 0.0 0.0"/>
-    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
+    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
   </joint>
   <joint name="Revolute_1" type="revolute">
     <origin rpy="0 0 0" xyz="0.0 0.0 0.6"/>
     <parent link="base_link"/>
     <child link="link_1_1"/>
     <axis xyz="0.0 0.0 1.0"/>
-    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
+    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
   </joint>
   <ros2_control name="mani_ros2_control" type="system">
     <hardware>
-      <!-- By default, set up controllers for simulation. This won't work on real hardware -->
       <plugin>gazebo_ros2_control/GazeboSystem</plugin>
     </hardware>
     <joint name="Revolute_1">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
     </joint>
     <joint name="Revolute_2">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
     </joint>
     <joint name="Revolute_3">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>-1.57</initial_position>
     </joint>
     <joint name="Revolute_4">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
     </joint>
     <joint name="Revolute_5">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
     </joint>
     <joint name="Revolute_6">
       <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
     </joint>
   </ros2_control>
 </robot>

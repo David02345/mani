@@ -5,6 +5,8 @@
   <xacro:include filename="/home/ydg/mani_ws/src/mani/urdf/6dof_mani.gazebo" />  
   <xacro:include filename="/home/ydg/mani_ws/src/mani/urdf/6dof_mani.trans" /> 
 
+<link name="world"/>
+
 <link name="base_link">
   <inertial>
     <origin xyz="2.149744881531404e-17 2.149744881531404e-17 0.22234748143971175" rpy="0 0 0"/>
@@ -25,6 +27,13 @@
     </geometry>
   </collision>
 </link>
+
+<joint name="fixed_joint" type="fixed">
+  <parent link="world"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
 
 <link name="link_8_1">
   <inertial>
@@ -236,7 +245,7 @@
   <parent link="link_6_1"/>
   <child link="link_7_1"/>
   <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Revolute_5" type="revolute">
@@ -244,7 +253,7 @@
   <parent link="link_5_1"/>
   <child link="link_6_1"/>
   <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Revolute_4" type="revolute">
@@ -252,7 +261,7 @@
   <parent link="link_4_1"/>
   <child link="link_5_1"/>
   <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Revolute_3" type="revolute">
@@ -260,7 +269,7 @@
   <parent link="link_3_1"/>
   <child link="link_4_1"/>
   <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="0.0" lower="-3.141593" effort="100" velocity="100"/>
+  <limit upper="1.2" lower="-4.71" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Rigid_7" type="fixed">
@@ -274,7 +283,7 @@
   <parent link="link_1_1"/>
   <child link="link_2_1"/>
   <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Revolute_1" type="revolute">
@@ -282,57 +291,50 @@
   <parent link="base_link"/>
   <child link="link_1_1"/>
   <axis xyz="0.0 0.0 1.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
 </joint>
 
 <ros2_control name="mani_ros2_control" type="system">
   <hardware>
-      <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
   </hardware>
   <joint name="Revolute_1">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>0.0</initial_position>
   </joint>
   <joint name="Revolute_2">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>0.0</initial_position>
   </joint>
   <joint name="Revolute_3">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>-1.57</initial_position>
   </joint>
   <joint name="Revolute_4">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>0.0</initial_position>
   </joint>
   <joint name="Revolute_5">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>0.0</initial_position>
   </joint>
   <joint name="Revolute_6">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <initial_position>0.0</initial_position>
   </joint>
-
+  
 </ros2_control>
 
 </robot>

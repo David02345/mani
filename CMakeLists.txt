@@ -23,10 +23,13 @@ find_package(orocos_kdl)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(xacro REQUIRED)
+find_package(angles REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 # Include directories
 include_directories(
   include
+  ${ament_INCLUDE_DIRS}
   ${rclcpp_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
@@ -36,34 +39,7 @@ include_directories(
   ${tf2_geometry_msgs_INCLUDE_DIRS}
 )
 
-
 # Build executables
-
-# 1. TargetPoseInputNode
-add_executable(target_pose_input src/TargetPoseInput.cpp)
-ament_target_dependencies(target_pose_input rclcpp std_msgs geometry_msgs tf2 tf2_ros tf2_geometry_msgs)
-
-# 2. IKSolverNode
-add_executable(ik_solver src/IKSolver.cpp)
-ament_target_dependencies(ik_solver rclcpp geometry_msgs sensor_msgs Eigen3)
-# KDL 사용 여부에 따라 라이브러리 링크 설정
-if(orocos_kdl_FOUND)
-  target_link_libraries(ik_solver ${orocos_kdl_LIBRARIES})
-endif()
-
-# 3. MotionPlanningNode
-add_executable(motion_planning_node src/MotionPlanning.cpp)
-ament_target_dependencies(motion_planning_node rclcpp sensor_msgs trajectory_msgs Eigen3)
-
-# 4. ControllerNode
-add_executable(controller src/Controller.cpp)
-ament_target_dependencies(controller rclcpp trajectory_msgs)
-
-# 5. FeedbackNode
-add_executable(feedback src/Feedback.cpp)
-ament_target_dependencies(feedback rclcpp std_msgs sensor_msgs)
-
-# 6. ManipulatorControllerNode
 add_executable(manipulator_controller src/ManipulatorController.cpp)
 ament_target_dependencies(manipulator_controller
   rclcpp 
@@ -75,21 +51,33 @@ ament_target_dependencies(manipulator_controller
   tf2 
   tf2_ros 
   tf2_geometry_msgs
+  angles
   )
 target_link_libraries(manipulator_controller
   rclcpp::rclcpp
 )
 
-
+add_executable(fksolver src/FKSolver.cpp)
+ament_target_dependencies(fksolver
+rclcpp 
+rclcpp_components 
+std_msgs geometry_msgs 
+sensor_msgs 
+trajectory_msgs 
+Eigen3 
+tf2 
+tf2_ros 
+tf2_geometry_msgs
+angles
+  )
+target_link_libraries(fksolver
+  rclcpp::rclcpp
+)
 
 # Install executables
 install(TARGETS
-  target_pose_input
-  ik_solver
-  motion_planning_node
-  controller
-  feedback
   manipulator_controller
+  fksolver
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY meshes/
