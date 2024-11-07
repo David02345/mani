@@ -31,7 +31,7 @@
 <joint name="fixed_joint" type="fixed">
   <parent link="world"/>
   <child link="base_link"/>
-  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <origin xyz="0 0 0" rpy="0 0 -1.570796"/>
 </joint>
 
 
@@ -229,7 +229,8 @@
   <parent link="link_7_1"/>
   <child link="link_8_1"/>
   <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="0.025" lower="0.0" effort="100" velocity="100"/>
+  <limit upper="0.0" lower="0.0" effort="100" velocity="100"/>
+  <!--<limit upper="0.025" lower="0.0" effort="100" velocity="100"/>-->
 </joint>
 
 <joint name="Slider_2" type="prismatic">
@@ -237,7 +238,8 @@
   <parent link="link_7_1"/>
   <child link="link_9_1"/>
   <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>
+  <limit upper="0.0" lower="0.0" effort="100" velocity="100"/>
+  <!--<limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>-->
 </joint>
 
 <joint name="Revolute_6" type="revolute">
@@ -253,7 +255,7 @@
   <parent link="link_5_1"/>
   <child link="link_6_1"/>
   <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Revolute_4" type="revolute">
@@ -269,7 +271,7 @@
   <parent link="link_3_1"/>
   <child link="link_4_1"/>
   <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="1.2" lower="-4.71" effort="100" velocity="100"/>
+  <limit upper="1.570796" lower="-4.712389" effort="100" velocity="100"/>
 </joint>
 
 <joint name="Rigid_7" type="fixed">

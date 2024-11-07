@@ -181,7 +181,7 @@
   <joint name="fixed_joint" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 -1.570796" xyz="0 0 0"/>
   </joint>
   <link name="link_8_1">
     <inertial>
@@ -368,14 +368,16 @@
     <parent link="link_7_1"/>
     <child link="link_8_1"/>
     <axis xyz="1.0 0.0 0.0"/>
-    <limit effort="100" lower="0.0" upper="0.025" velocity="100"/>
+    <limit effort="100" lower="0.0" upper="0.0" velocity="100"/>
+    <!--<limit upper="0.025" lower="0.0" effort="100" velocity="100"/>-->
   </joint>
   <joint name="Slider_2" type="prismatic">
     <origin rpy="0 0 0" xyz="0.0 0.0 0.03"/>
     <parent link="link_7_1"/>
     <child link="link_9_1"/>
     <axis xyz="1.0 0.0 0.0"/>
-    <limit effort="100" lower="-0.025" upper="0.0" velocity="100"/>
+    <limit effort="100" lower="0.0" upper="0.0" velocity="100"/>
+    <!--<limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>-->
   </joint>
   <joint name="Revolute_6" type="revolute">
     <origin rpy="0 0 0" xyz="-0.03 0.0 -0.05"/>
@@ -389,7 +391,7 @@
     <parent link="link_5_1"/>
     <child link="link_6_1"/>
     <axis xyz="-1.0 0.0 0.0"/>
-    <limit effort="100" lower="-3.141593" upper="3.141593" velocity="100"/>
+    <limit effort="100" lower="-1.570796" upper="1.570796" velocity="100"/>
   </joint>
   <joint name="Revolute_4" type="revolute">
     <origin rpy="0 0 0" xyz="0.0 0.0 -0.4"/>
@@ -403,7 +405,7 @@
     <parent link="link_3_1"/>
     <child link="link_4_1"/>
     <axis xyz="-1.0 0.0 0.0"/>
-    <limit effort="100" lower="-4.71" upper="1.2" velocity="100"/>
+    <limit effort="100" lower="-4.712389" upper="1.570796" velocity="100"/>
   </joint>
   <joint name="Rigid_7" type="fixed">
     <origin rpy="0 0 0" xyz="0.0 0.5 0.0"/>

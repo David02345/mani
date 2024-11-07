@@ -26,6 +26,7 @@
   <build_depend>robot_state_publisher</build_depend>
   <build_depend>xacro</build_depend>
   <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>eigen3_cmake_module</build_depend>
 
   <!-- 실행 시 필요한 의존성 -->
   <exec_depend>rclcpp</exec_depend>
@@ -44,6 +45,7 @@
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>tf2_geometry_msgs</exec_depend>
+  <exec_depend>eigen3_cmake_module</exec_depend>
 
   <!-- 테스트 의존성 -->
   <test_depend>ament_cmake_gtest</test_depend>

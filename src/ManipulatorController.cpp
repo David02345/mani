@@ -21,7 +21,7 @@ double d[6] = {0.7, 0.2, 0.2, 0.48, 0, 0.11};
 double a[6] = {0, 0.5, 0, 0, 0, 0};
 double alpha[6] = {pi / 2, -pi, -pi / 2, pi / 2, -pi / 2, 0};
 const double position_tolerance = 0.01;   // 1 cm tolerance
-const double orientation_tolerance = 0.0005; // ~0.57 degrees
+const double orientation_tolerance = 0.001;
 
 Matrix<double, 4, 4> compute_transform_matrix(double theta, double d, double a, double alpha) {
     Matrix<double, 4, 4> T;
@@ -39,15 +39,16 @@ void epsilon(MatrixBase<Derived>& M, double epsilon = 1e-10) {
 class ManipulatorController : public rclcpp::Node
 {
 public:
-    ManipulatorController()
+    ManipulatorController(double target_x, double target_y, double target_z,
+                          double target_roll, double target_pitch, double target_yaw)
         : Node("manipulator_controller"), loop_rate_(std::chrono::milliseconds(100)) // 10Hz 주기 설정
     {
-        target_pose_.position.x = 0.943553;
-        target_pose_.position.y = 0.000000;
-        target_pose_.position.z = 0.346447;
-        target_roll_ = 3.141593;
-        target_pitch_ = -1.570796;
-        target_yaw_ = 0.000000;
+        target_pose_.position.x = target_x;
+        target_pose_.position.y = target_y;
+        target_pose_.position.z = target_z;
+        target_roll_ = target_roll;
+        target_pitch_ = target_pitch;
+        target_yaw_ = target_yaw;
 
         target_orientation_.setRPY(target_roll_, target_pitch_, target_yaw_);
         target_orientation_.normalize();
@@ -77,11 +78,12 @@ private:
     tf2::Quaternion target_orientation_;
     double target_roll_, target_pitch_, target_yaw_;
     double current_roll, current_pitch, current_yaw;
+    double error_r, error_p, error_y;
     void joint_state_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
     {
         for (size_t i = 0; i < msg->name.size(); ++i)
         {
-            RCLCPP_INFO(this->get_logger(), "Joint: %s, Position: %f", msg->name[i].c_str(), msg->position[i]);
+            
             if (msg->name[i] == "Revolute_1")
                 current_joint_positions_[0] = msg->position[i];
             else if (msg->name[i] == "Revolute_2")
@@ -95,10 +97,7 @@ private:
             else if (msg->name[i] == "Revolute_6")
                 current_joint_positions_[5] = msg->position[i];
         }
-        RCLCPP_INFO(this->get_logger(), "\n  Target Pose: x=%f, y=%f, z=%f", target_pose_.position.x, target_pose_.position.y, target_pose_.position.z);
-        RCLCPP_INFO(this->get_logger(), "Current Pose: x=%f, y=%f, z=%f", current_pose_.position.x, current_pose_.position.y, current_pose_.position.z);
-        RCLCPP_INFO(this->get_logger(), "\n  Target RPY: r=%f, p=%f, y=%f", target_roll_, target_pitch_, target_yaw_);
-        RCLCPP_INFO(this->get_logger(),"Current RPY: r=%f, p=%f, y=%f", current_roll, current_pitch, current_yaw);
+        
 
      }
 
@@ -137,20 +136,14 @@ private:
             current_pose_.orientation.y,
             current_pose_.orientation.z,
             current_pose_.orientation.w);
-        q_current.normalize(); // 쿼터니언 정규화
+        q_current.normalize();
 
-        // 쿼터니언을 RPY로 변환
-        
         tf2::Matrix3x3(q_current).getRPY(current_roll, current_pitch, current_yaw);
-
         
-         tf2::Quaternion q_error = target_orientation_ * q_current.inverse();
+        tf2::Quaternion q_error = target_orientation_ * q_current.inverse();
         q_error.normalize();
 
-        // 에러 쿼터니언을 회전 벡터로 변환
-        double angle = q_error.getAngle();
-        tf2::Vector3 axis = q_error.getAxis();
-        Vector3d orientation_error_vec = angle * Vector3d(axis.x(), axis.y(), axis.z());
+        Vector3d orientation_error_vec(error_r, error_p, error_y);
         double orientation_error = orientation_error_vec.norm();
 
         if (position_error < position_tolerance && orientation_error < orientation_tolerance)
@@ -163,42 +156,41 @@ private:
 
         Matrix<double, 6, 6> J_ = compute_jacobian(theta, d, a, alpha);
         Matrix<double, 6, 6> J_DPI = compute_inverse_jacobian(J_);
-
+        tf2::Matrix3x3(q_error).getRPY(error_r, error_p, error_y);
+        
         Matrix<double, 6, 1> error;
-        error.head<3>() = position_error_vec;
-        error.tail<3>() = orientation_error_vec;
+        error << position_error_vec(0), position_error_vec(1), position_error_vec(2),
+        error_r, error_p, error_y;
+        
 
         Matrix<double, 6, 6> K_p = MatrixXd::Zero(6,6);
-        K_p.block<3,3>(0,0) = 5.0 * Matrix3d::Identity(); // Position gains
-        K_p.block<3,3>(3,3) = 5.0 * Matrix3d::Identity(); // Orientation gains
+        K_p.block<3,3>(0,0) = 3.0 * Matrix3d::Identity(); // Position gains
+        K_p.block<3,3>(3,3) = 3.0 * Matrix3d::Identity(); // Orientation gains
 
         Matrix<double, 6, 1> dq = J_DPI * (K_p * error);
 
         Matrix<double, 6, 1> q_current_;
-        for (int i = 1; i < 6; ++i) {
+        for (int i = 0; i < 6; ++i) {
             q_current_(i) = current_joint_positions_[i];
         }
-        q_current_(0) = current_joint_positions_[0] + pi/2;
-
+        
         Matrix<double, 6, 1> q_desired;
         q_desired = q_current_ + (dq * dt_);
+        RCLCPP_INFO(this->get_logger(), "\n\nDesired: %f, %f, %f, %f, %f, %f\n\n", q_desired(0), q_desired(1), q_desired(2), q_desired(3), q_desired(4), q_desired(5));
+        RCLCPP_INFO(this->get_logger(), "Current Q: %f, %f, %f, %f, %f, %f \n", q_current_(0), q_current_(1), q_current_(2), q_current_(3), q_current_(4), q_current_(5));
+        RCLCPP_INFO(this->get_logger(), "\n  Target Pose: x=%f, y=%f, z=%f", target_pose_.position.x, target_pose_.position.y, target_pose_.position.z);
+        RCLCPP_INFO(this->get_logger(), "Current Pose: x=%f, y=%f, z=%f", current_pose_.position.x, current_pose_.position.y, current_pose_.position.z);
+        RCLCPP_INFO(this->get_logger(), "\n  Target RPY: r=%f, p=%f, y=%f", target_roll_, target_pitch_, target_yaw_);
+        RCLCPP_INFO(this->get_logger(),"Current RPY: r=%f, p=%f, y=%f", current_roll, current_pitch, current_yaw);
 
         trajectory_msgs::msg::JointTrajectory joint_trajectory;
         trajectory_msgs::msg::JointTrajectoryPoint point;
         joint_trajectory.joint_names = {"Revolute_1", "Revolute_2", "Revolute_3", "Revolute_4", "Revolute_5", "Revolute_6"};
 
-        double joint_limits_upper[6] = {3.141593, 3.141593, 0.0, 3.141593, 3.141593, 3.141593};
-        double joint_limits_lower[6] = {-3.141593, -3.141593, -6.283185, -3.141593, -3.141593, -1.570796};
+        double joint_limits_upper[6] = {3.141593, 3.141593, 1.570796, 3.141593, 1.570796, 3.141593};
+        double joint_limits_lower[6] = {-3.141593, -3.141593, -4.712389, -3.141593, -1.570796, -3.141593};
         
-        double new_position = q_desired(0) - pi/2;
-
-            if (new_position > joint_limits_upper[0])
-                new_position = joint_limits_upper[0];
-            if (new_position < joint_limits_lower[0])
-                new_position = joint_limits_lower[0];
-
-            point.positions.push_back(new_position);
-        for (int i = 1; i < 6; ++i)
+        for (int i = 0; i < 6; ++i)
         {
             double new_position = q_desired(i);
 
@@ -209,7 +201,7 @@ private:
 
             point.positions.push_back(new_position);
         }
-        point.time_from_start = rclcpp::Duration::from_seconds(0.05);
+        point.time_from_start = rclcpp::Duration::from_seconds(0.5);
         joint_trajectory.points.push_back(point);
 
         joint_command_publisher_->publish(joint_trajectory);
@@ -222,7 +214,6 @@ private:
         for(int i=0; i<6; i++){
             theta[i] = current_joint_positions_[i];
         }
-        theta[0] += pi/2;
 
         Matrix<double, 4, 4> T01 = compute_transform_matrix(theta[0], d[0], a[0], alpha[0]);
         Matrix<double, 4, 4> T12 = compute_transform_matrix(theta[1], d[1], a[1], alpha[1]);
@@ -231,15 +222,7 @@ private:
         Matrix<double, 4, 4> T45 = compute_transform_matrix(theta[4], d[4], a[4], alpha[4]);
         Matrix<double, 4, 4> T56 = compute_transform_matrix(theta[5], d[5], a[5], alpha[5]);
 
-        epsilon(T01);
-        epsilon(T12);
-        epsilon(T23);
-        epsilon(T34);
-        epsilon(T45);
-        epsilon(T56);
-
         Matrix<double, 4, 4> D6 = T01 * T12 * T23 * T34 * T45 * T56;
-        epsilon(D6);
 
         double x = D6(0, 3);
         double y = D6(1, 3);
@@ -256,49 +239,67 @@ private:
         current_pose_.orientation.y = quaternion.y();
         current_pose_.orientation.z = quaternion.z();
         current_pose_.orientation.w = quaternion.w();
-        
-        // current_orientation_ 업데이트
+
         current_orientation_.setX(quaternion.x());
         current_orientation_.setY(quaternion.y());
         current_orientation_.setZ(quaternion.z());
         current_orientation_.setW(quaternion.w());
+    
     }
 
     Matrix<double, 6, 6> compute_jacobian(double theta[6], double d[6], double a[6], double alpha[6])
     {
-        // 각 변환 행렬 계산
-    Matrix<double, 4, 4> T[6];
-    for (int i = 0; i < 6; i++) {
-        T[i] = compute_transform_matrix(theta[i], d[i], a[i], alpha[i]);
-    }
 
-    // 누적 변환 행렬과 회전 축, 위치 벡터 추출
-    Matrix<double, 4, 4> D[7]; // D[0]은 단위 행렬
-    D[0] = Matrix4d::Identity();
-    Vector3d z[6];
-    Vector3d p[6];
-    for (int i = 0; i < 6; i++) {
-        D[i + 1] = D[i] * T[i];
-        z[i] = D[i].block<3,1>(0,2); // z_i: 회전 축
-        p[i] = D[i].block<3,1>(0,3); // p_i: 위치 벡터
-    }
-    Vector3d p_n = D[6].block<3,1>(0,3); // 엔드 이펙터 위치
+        Matrix<double, 4, 4> T01 = compute_transform_matrix(theta[0], d[0], a[0], alpha[0]);
+        Matrix<double, 4, 4> T12 = compute_transform_matrix(theta[1], d[1], a[1], alpha[1]);
+        Matrix<double, 4, 4> T23 = compute_transform_matrix(theta[2], d[2], a[2], alpha[2]);
+        Matrix<double, 4, 4> T34 = compute_transform_matrix(theta[3], d[3], a[3], alpha[3]);
+        Matrix<double, 4, 4> T45 = compute_transform_matrix(theta[4], d[4], a[4], alpha[4]);
+        Matrix<double, 4, 4> T56 = compute_transform_matrix(theta[5], d[5], a[5], alpha[5]);
+    
+        Matrix<double, 4, 4> D2 = T01 * T12;
+        Matrix<double, 4, 4> D3 = T01 * T12 * T23;
+        Matrix<double, 4, 4> D4 = T01 * T12 * T23 * T34;
+        Matrix<double, 4, 4> D5 = T01 * T12 * T23 * T34 * T45;
+        Matrix<double, 4, 4> D6 = T01 * T12 * T23 * T34 * T45 * T56;
 
-    // 제이콥비안 계산
-    Matrix<double, 6, 6> Jacobian;
-    for (int i = 0; i < 6; i++) {
-        Vector3d J_v = z[i].cross(p_n - p[i]);
-        Vector3d J_w = z[i];
-        Jacobian.block<3,1>(0,i) = J_v;
-        Jacobian.block<3,1>(3,i) = J_w;
-    }
+        Vector3d z0{0, 0, 1};
+        Vector3d z1 = T01.block<3, 1>(0, 2);
+        Vector3d z2 = D2.block<3, 1>(0, 2);
+        Vector3d z3 = D3.block<3, 1>(0, 2);
+        Vector3d z4 = D4.block<3, 1>(0, 2);
+        Vector3d z5 = D5.block<3, 1>(0, 2);
 
-    return Jacobian;
+        Vector3d t0{0, 0, 0};
+        Vector3d t1 = T01.block<3, 1>(0, 3);
+        Vector3d t2 = D2.block<3, 1>(0, 3);
+        Vector3d t3 = D3.block<3, 1>(0, 3);
+        Vector3d t4 = D4.block<3, 1>(0, 3);
+        Vector3d t5 = D5.block<3, 1>(0, 3);
+        Vector3d t6 = D6.block<3, 1>(0, 3);
+
+        // Jacobian 계산
+        Matrix<double, 6, 6> Jacobian;
+        Jacobian.block<3, 1>(0, 0) = z0.cross(t6 - t0);
+        Jacobian.block<3, 1>(0, 1) = z1.cross(t6 - t1);
+        Jacobian.block<3, 1>(0, 2) = z2.cross(t6 - t2);
+        Jacobian.block<3, 1>(0, 3) = z3.cross(t6 - t3);
+        Jacobian.block<3, 1>(0, 4) = z4.cross(t6 - t4);
+        Jacobian.block<3, 1>(0, 5) = z5.cross(t6 - t5);
+
+        Jacobian.block<3, 1>(3, 0) = z0;
+        Jacobian.block<3, 1>(3, 1) = z1;
+        Jacobian.block<3, 1>(3, 2) = z2;
+        Jacobian.block<3, 1>(3, 3) = z3;
+        Jacobian.block<3, 1>(3, 4) = z4;
+        Jacobian.block<3, 1>(3, 5) = z5;
+        
+        return Jacobian;
     }
 
     Matrix<double, 6, 6> compute_inverse_jacobian(const Matrix<double, 6, 6>& J)
     {
-        double lambda = 0.3; // Adjust damping factor as needed
+        double lambda = 0.3;
         Matrix<double, 6, 6> JJt = J * J.transpose() + lambda * MatrixXd::Identity(6,6);
         return J.transpose() * JJt.inverse();
     }
@@ -317,9 +318,21 @@ private:
 
 int main(int argc, char *argv[])
 {
-    rclcpp::init(argc, argv);
-    auto node = make_shared<ManipulatorController>();
-    rclcpp::spin(node);
-    rclcpp::shutdown();
+    if (argc != 7) {
+        std::cerr << "Usage: ros2 run <package_name> <executable_name> target_x target_y target_z target_roll target_pitch target_yaw" << std::endl;
+        return -1;
+    }
+        double target_x = std::stod(argv[1]);
+        double target_y = std::stod(argv[2]);
+        double target_z = std::stod(argv[3]);
+        double target_roll = std::stod(argv[4]);
+        double target_pitch = std::stod(argv[5]);
+        double target_yaw = std::stod(argv[6]);
+
+        rclcpp::init(argc, argv);
+        auto node = make_shared<ManipulatorController>(target_x, target_y, target_z, target_roll, target_pitch, target_yaw);
+        rclcpp::spin(node);
+        rclcpp::shutdown();
+  
     return 0;
 }
