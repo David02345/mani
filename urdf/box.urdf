@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot name="custom box">
+    <!-- Custom Box -->
+    <material name="red">
+        <color rgba="1.0 0.0 0.0 1"/>
+    </material>
+
+    <link name="box_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0.7854"/>
+            <geometry>
+                <box size="0.04 0.04 0.04"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0.7854"/>
+            <geometry>
+                <box size="0.04 0.04 0.04"/>
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>1</mu> <!-- 마찰 계수 설정 -->
+                        <mu2>1</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="0.0001"/>
+            <origin xyz="0 0 0" rpy="0 0 0.7854"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
+
+    <gazebo reference="box_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+</robot>

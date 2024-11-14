@@ -97,8 +97,6 @@ private:
             else if (msg->name[i] == "Revolute_6")
                 current_joint_positions_[5] = msg->position[i];
         }
-        
-
      }
 
     void control_loop()
@@ -126,9 +124,10 @@ private:
 
         compute_forward_kinematics();
 
-        Vector3d position_error_vec(target_pose_.position.x - current_pose_.position.x,
-                                    target_pose_.position.y - current_pose_.position.y,
-                                    target_pose_.position.z - current_pose_.position.z);
+        Vector3d position_error_vec(
+            target_pose_.position.x - current_pose_.position.x,
+            target_pose_.position.y - current_pose_.position.y,
+            target_pose_.position.z - current_pose_.position.z);
         double position_error = position_error_vec.norm();
 
         tf2::Quaternion q_current(
@@ -164,8 +163,8 @@ private:
         
 
         Matrix<double, 6, 6> K_p = MatrixXd::Zero(6,6);
-        K_p.block<3,3>(0,0) = 3.0 * Matrix3d::Identity(); // Position gains
-        K_p.block<3,3>(3,3) = 3.0 * Matrix3d::Identity(); // Orientation gains
+        K_p.block<3,3>(0,0) = 10.0 * Matrix3d::Identity(); // Position gains
+        K_p.block<3,3>(3,3) = 8.0 * Matrix3d::Identity(); // Orientation gains
 
         Matrix<double, 6, 1> dq = J_DPI * (K_p * error);
 
@@ -278,7 +277,6 @@ private:
         Vector3d t5 = D5.block<3, 1>(0, 3);
         Vector3d t6 = D6.block<3, 1>(0, 3);
 
-        // Jacobian 계산
         Matrix<double, 6, 6> Jacobian;
         Jacobian.block<3, 1>(0, 0) = z0.cross(t6 - t0);
         Jacobian.block<3, 1>(0, 1) = z1.cross(t6 - t1);

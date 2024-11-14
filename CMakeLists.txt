@@ -25,6 +25,9 @@ find_package(Eigen3 REQUIRED)
 find_package(xacro REQUIRED)
 find_package(angles REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(linkattacher_msgs REQUIRED) 
+find_package(control_msgs REQUIRED)
+
 
 # Include directories
 include_directories(
@@ -41,7 +44,42 @@ include_directories(
 
 # Build executables
 add_executable(manipulator_controller src/ManipulatorController.cpp)
-ament_target_dependencies(manipulator_controller
+  ament_target_dependencies(manipulator_controller
+    rclcpp 
+    rclcpp_components 
+    std_msgs geometry_msgs 
+    sensor_msgs 
+    trajectory_msgs 
+    Eigen3 
+    tf2 
+    tf2_ros 
+    tf2_geometry_msgs
+    angles
+    linkattacher_msgs
+    control_msgs
+  )
+target_link_libraries(manipulator_controller
+  rclcpp::rclcpp
+)
+
+add_executable(fksolver src/FKSolver.cpp)
+  ament_target_dependencies(fksolver
+    rclcpp 
+    rclcpp_components 
+    std_msgs geometry_msgs 
+    sensor_msgs 
+    trajectory_msgs 
+    Eigen3 
+    tf2 
+    tf2_ros 
+    tf2_geometry_msgs
+    angles
+  )
+target_link_libraries(fksolver
+  rclcpp::rclcpp
+)
+add_executable(picknplace src/PicknPlace.cpp)
+ament_target_dependencies(picknplace
   rclcpp 
   rclcpp_components 
   std_msgs geometry_msgs 
@@ -52,25 +90,10 @@ ament_target_dependencies(manipulator_controller
   tf2_ros 
   tf2_geometry_msgs
   angles
+  linkattacher_msgs
+  control_msgs
   )
-target_link_libraries(manipulator_controller
-  rclcpp::rclcpp
-)
-
-add_executable(fksolver src/FKSolver.cpp)
-ament_target_dependencies(fksolver
-rclcpp 
-rclcpp_components 
-std_msgs geometry_msgs 
-sensor_msgs 
-trajectory_msgs 
-Eigen3 
-tf2 
-tf2_ros 
-tf2_geometry_msgs
-angles
-  )
-target_link_libraries(fksolver
+target_link_libraries(picknplace
   rclcpp::rclcpp
 )
 
@@ -78,6 +101,7 @@ target_link_libraries(fksolver
 install(TARGETS
   manipulator_controller
   fksolver
+  picknplace
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY meshes/

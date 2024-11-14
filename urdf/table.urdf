@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<robot name="table">
+    <link name="world"></link>
+    
+    <material name="green">
+        <color rgba="0.0 1.0 0.0 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0.0 0.0 1.0 1"/>
+    </material>
+
+    <material name="yellow">
+        <color rgba="1.0 1.0 0.0 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1.0 0.0 0.0 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1"/>
+    </material>
+
+    <material name="orange">
+        <color rgba="255 165 0.0 1"/>
+    </material>
+
+    <!-- Table 1 -->
+    <link name="table_1_link">
+        <visual>
+            <origin xyz="0.6 0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0.6 0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>1</mu> <!-- 마찰 계수 설정 -->
+                        <mu2>1</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+        </inertial>
+    </link>
+
+    <!-- Table 2 -->
+    <link name="table_2_link">
+        <visual>
+            <origin xyz="-0.6 0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.6 0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>1</mu> <!-- 마찰 계수 설정 -->
+                        <mu2>1</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+        </inertial>
+    </link>
+
+    <!-- Table 3 -->
+    <link name="table_3_link">
+        <visual>
+            <origin xyz="-0.6 -0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.6 -0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>1</mu> <!-- 마찰 계수 설정 -->
+                        <mu2>1</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+        </inertial>
+    </link>
+
+    <!-- Table 4 -->
+    <link name="table_4_link">
+        <visual>
+            <origin xyz="0.6 -0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+        <collision>
+            <origin xyz="0.6 -0.6 0.15" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.3"/>
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>1</mu> <!-- 마찰 계수 설정 -->
+                        <mu2>1</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+        </inertial>
+    </link>
+
+    <joint name="table_world_link1" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="table_1_link"/>
+    </joint>
+    <joint name="table_world_link2" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="table_2_link"/>
+    </joint>
+    <joint name="table_world_link3" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="table_3_link"/>
+    </joint>
+    <joint name="table_world_link4" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="table_4_link"/>
+    </joint>
+
+
+    
+    <gazebo reference="table_1_link">
+        <material>Gazebo/White</material>
+    </gazebo>
+    <gazebo reference="table_2_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="table_3_link">
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+    <gazebo reference="table_4_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+</robot>

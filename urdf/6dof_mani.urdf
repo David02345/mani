@@ -368,16 +368,14 @@
     <parent link="link_7_1"/>
     <child link="link_8_1"/>
     <axis xyz="1.0 0.0 0.0"/>
-    <limit effort="100" lower="0.0" upper="0.0" velocity="100"/>
-    <!--<limit upper="0.025" lower="0.0" effort="100" velocity="100"/>-->
+    <limit effort="100" lower="0.0" upper="0.025" velocity="100"/>
   </joint>
   <joint name="Slider_2" type="prismatic">
     <origin rpy="0 0 0" xyz="0.0 0.0 0.03"/>
     <parent link="link_7_1"/>
     <child link="link_9_1"/>
     <axis xyz="1.0 0.0 0.0"/>
-    <limit effort="100" lower="0.0" upper="0.0" velocity="100"/>
-    <!--<limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>-->
+    <limit effort="100" lower="-0.025" upper="0.0" velocity="100"/>
   </joint>
   <joint name="Revolute_6" type="revolute">
     <origin rpy="0 0 0" xyz="-0.03 0.0 -0.05"/>
@@ -461,6 +459,18 @@
       <initial_position>0.0</initial_position>
     </joint>
     <joint name="Revolute_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Slider_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Slider_2">
       <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>

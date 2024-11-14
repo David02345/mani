@@ -4,7 +4,10 @@ controller_manager:
 
     mani_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-
+    end_effector_controller_1:
+      type: position_controllers/GripperActionController
+    end_effector_controller_2:
+      type: position_controllers/GripperActionController
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
@@ -22,3 +25,11 @@ mani_arm_controller:
     state_interfaces:
       - position
       - velocity
+
+end_effector_controller_1:
+  ros__parameters:
+    joint: Slider_1
+
+end_effector_controller_2:
+  ros__parameters:
+    joint: Slider_2

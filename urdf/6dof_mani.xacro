@@ -5,338 +5,346 @@
   <xacro:include filename="/home/ydg/mani_ws/src/mani/urdf/6dof_mani.gazebo" />  
   <xacro:include filename="/home/ydg/mani_ws/src/mani/urdf/6dof_mani.trans" /> 
 
-<link name="world"/>
+  <link name="world"/>
 
-<link name="base_link">
-  <inertial>
-    <origin xyz="2.149744881531404e-17 2.149744881531404e-17 0.22234748143971175" rpy="0 0 0"/>
-    <mass value="53.13771672353255"/>
-    <inertia ixx="1.926507" iyy="1.926507" izz="0.142694" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="2.149744881531404e-17 2.149744881531404e-17 0.22234748143971175" rpy="0 0 0"/>
+      <mass value="53.13771672353255"/>
+      <inertia ixx="1.926507" iyy="1.926507" izz="0.142694" ixy="0.0" iyz="0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
 
-<joint name="fixed_joint" type="fixed">
-  <parent link="world"/>
-  <child link="base_link"/>
-  <origin xyz="0 0 0" rpy="0 0 -1.570796"/>
-</joint>
-
-
-<link name="link_8_1">
-  <inertial>
-    <origin xyz="-0.039340998690695 7.58658880162244e-09 -0.05486038510225294" rpy="0 0 0"/>
-    <mass value="0.10049075548979451"/>
-    <inertia ixx="2.8e-05" iyy="1.6e-05" izz="1.3e-05" ixy="0.0" iyz="-0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_8_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_8_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_9_1">
-  <inertial>
-    <origin xyz="0.039340998774234935 -6.868324020636862e-09 -0.054860385776580256" rpy="0 0 0"/>
-    <mass value="0.1004907509297747"/>
-    <inertia ixx="2.8e-05" iyy="1.6e-05" izz="1.3e-05" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_9_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_9_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_7_1">
-  <inertial>
-    <origin xyz="0.0 1.1102230246251565e-16 -0.00490145769266237" rpy="0 0 0"/>
-    <mass value="0.5482219872439408"/>
-    <inertia ixx="0.000212" iyy="0.000554" izz="0.000758" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.5 -0.17" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_7_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.5 -0.17" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_7_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_6_1">
-  <inertial>
-    <origin xyz="-0.02999999968436338 -5.551115123125783e-17 -0.0006655542658631219" rpy="0 0 0"/>
-    <mass value="3.7517142442249574"/>
-    <inertia ixx="0.004765" iyy="0.003547" izz="0.003453" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.03 -0.5 -0.22" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_6_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.03 -0.5 -0.22" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_6_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_5_1">
-  <inertial>
-    <origin xyz="-3.3978200457262537e-17 -5.551115123125783e-17 -0.04995217971199711" rpy="0 0 0"/>
-    <mass value="8.404839941888653"/>
-    <inertia ixx="0.018892" iyy="0.027299" izz="0.023197" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.5 -0.3" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_5_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.5 -0.3" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_5_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_4_1">
-  <inertial>
-    <origin xyz="-0.005393886723982707 -1.9101969062074176e-08 -0.0812452511717251" rpy="0 0 0"/>
-    <mass value="57.15166854451474"/>
-    <inertia ixx="1.131774" iyy="1.136453" izz="0.228916" ixy="-0.0" iyz="-0.0" ixz="0.025045"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.5 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_4_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.5 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_4_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_3_1">
-  <inertial>
-    <origin xyz="-0.02063337713705643 0.006447937492402134 1.6172253536339554e-08" rpy="0 0 0"/>
-    <mass value="44.82089050461812"/>
-    <inertia ixx="0.191876" iyy="0.352786" izz="0.335839" ixy="-0.005963" iyz="0.0" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.2 -0.5 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_3_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.2 -0.5 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_3_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_2_1">
-  <inertial>
-    <origin xyz="0.004868630594462409 0.11715205013596279 1.8184465711001963e-08" rpy="0 0 0"/>
-    <mass value="63.31704419351884"/>
-    <inertia ixx="1.897499" iyy="0.236785" izz="1.902339" ixy="0.036114" iyz="-0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.2 0.0 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.2 0.0 -0.7" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="link_1_1">
-  <inertial>
-    <origin xyz="0.01851625139495706 -1.3314793762482336e-08 0.09999999999999987" rpy="0 0 0"/>
-    <mass value="50.98628790042472"/>
-    <inertia ixx="0.23957" iyy="0.363708" izz="0.340669" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.0 -0.6" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.0 -0.6" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find mani)/meshes/link_1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<joint name="Slider_1" type="prismatic">
-  <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
-  <parent link="link_7_1"/>
-  <child link="link_8_1"/>
-  <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="0.0" lower="0.0" effort="100" velocity="100"/>
-  <!--<limit upper="0.025" lower="0.0" effort="100" velocity="100"/>-->
-</joint>
-
-<joint name="Slider_2" type="prismatic">
-  <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
-  <parent link="link_7_1"/>
-  <child link="link_9_1"/>
-  <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="0.0" lower="0.0" effort="100" velocity="100"/>
-  <!--<limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>-->
-</joint>
-
-<joint name="Revolute_6" type="revolute">
-  <origin xyz="-0.03 0.0 -0.05" rpy="0 0 0"/>
-  <parent link="link_6_1"/>
-  <child link="link_7_1"/>
-  <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
-</joint>
-
-<joint name="Revolute_5" type="revolute">
-  <origin xyz="0.03 0.0 -0.08" rpy="0 0 0"/>
-  <parent link="link_5_1"/>
-  <child link="link_6_1"/>
-  <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
-</joint>
-
-<joint name="Revolute_4" type="revolute">
-  <origin xyz="0.0 0.0 -0.4" rpy="0 0 0"/>
-  <parent link="link_4_1"/>
-  <child link="link_5_1"/>
-  <axis xyz="0.0 0.0 -1.0"/>
-  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
-</joint>
-
-<joint name="Revolute_3" type="revolute">
-  <origin xyz="-0.2 0.0 0.0" rpy="0 0 0"/>
-  <parent link="link_3_1"/>
-  <child link="link_4_1"/>
-  <axis xyz="-1.0 0.0 0.0"/>
-  <limit upper="1.570796" lower="-4.712389" effort="100" velocity="100"/>
-</joint>
-
-<joint name="Rigid_7" type="fixed">
-  <origin xyz="0.0 0.5 0.0" rpy="0 0 0"/>
-  <parent link="link_2_1"/>
-  <child link="link_3_1"/>
-</joint>
-
-<joint name="Revolute_2" type="revolute">
-  <origin xyz="0.2 -0.0 0.1" rpy="0 0 0"/>
-  <parent link="link_1_1"/>
-  <child link="link_2_1"/>
-  <axis xyz="1.0 0.0 0.0"/>
-  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
-</joint>
-
-<joint name="Revolute_1" type="revolute">
-  <origin xyz="0.0 0.0 0.6" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="link_1_1"/>
-  <axis xyz="0.0 0.0 1.0"/>
-  <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
-</joint>
-
-<ros2_control name="mani_ros2_control" type="system">
-  <hardware>
-    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-  </hardware>
-  <joint name="Revolute_1">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>0.0</initial_position>
+  <joint name="fixed_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 -1.570796"/>
   </joint>
-  <joint name="Revolute_2">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>0.0</initial_position>
-  </joint>
-  <joint name="Revolute_3">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>-1.57</initial_position>
-  </joint>
-  <joint name="Revolute_4">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>0.0</initial_position>
-  </joint>
-  <joint name="Revolute_5">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>0.0</initial_position>
-  </joint>
-  <joint name="Revolute_6">
-    <command_interface name="position"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <initial_position>0.0</initial_position>
-  </joint>
-  
-</ros2_control>
 
+
+  <link name="link_8_1">
+    <inertial>
+      <origin xyz="-0.039340998690695 7.58658880162244e-09 -0.05486038510225294" rpy="0 0 0"/>
+      <mass value="0.10049075548979451"/>
+      <inertia ixx="2.8e-05" iyy="1.6e-05" izz="1.3e-05" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_8_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_8_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_9_1">
+    <inertial>
+      <origin xyz="0.039340998774234935 -6.868324020636862e-09 -0.054860385776580256" rpy="0 0 0"/>
+      <mass value="0.1004907509297747"/>
+      <inertia ixx="2.8e-05" iyy="1.6e-05" izz="1.3e-05" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_9_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.5 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_9_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_7_1">
+    <inertial>
+      <origin xyz="0.0 1.1102230246251565e-16 -0.00490145769266237" rpy="0 0 0"/>
+      <mass value="0.5482219872439408"/>
+      <inertia ixx="0.000212" iyy="0.000554" izz="0.000758" ixy="0.0" iyz="0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.5 -0.17" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_7_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.5 -0.17" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_7_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_6_1">
+    <inertial>
+      <origin xyz="-0.02999999968436338 -5.551115123125783e-17 -0.0006655542658631219" rpy="0 0 0"/>
+      <mass value="3.7517142442249574"/>
+      <inertia ixx="0.004765" iyy="0.003547" izz="0.003453" ixy="0.0" iyz="0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.03 -0.5 -0.22" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_6_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.03 -0.5 -0.22" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_6_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_5_1">
+    <inertial>
+      <origin xyz="-3.3978200457262537e-17 -5.551115123125783e-17 -0.04995217971199711" rpy="0 0 0"/>
+      <mass value="8.404839941888653"/>
+      <inertia ixx="0.018892" iyy="0.027299" izz="0.023197" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.5 -0.3" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_5_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.5 -0.3" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_5_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_4_1">
+    <inertial>
+      <origin xyz="-0.005393886723982707 -1.9101969062074176e-08 -0.0812452511717251" rpy="0 0 0"/>
+      <mass value="57.15166854451474"/>
+      <inertia ixx="1.131774" iyy="1.136453" izz="0.228916" ixy="-0.0" iyz="-0.0" ixz="0.025045"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.5 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_4_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.5 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_4_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_3_1">
+    <inertial>
+      <origin xyz="-0.02063337713705643 0.006447937492402134 1.6172253536339554e-08" rpy="0 0 0"/>
+      <mass value="44.82089050461812"/>
+      <inertia ixx="0.191876" iyy="0.352786" izz="0.335839" ixy="-0.005963" iyz="0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2 -0.5 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_3_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.2 -0.5 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_3_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_2_1">
+    <inertial>
+      <origin xyz="0.004868630594462409 0.11715205013596279 1.8184465711001963e-08" rpy="0 0 0"/>
+      <mass value="63.31704419351884"/>
+      <inertia ixx="1.897499" iyy="0.236785" izz="1.902339" ixy="0.036114" iyz="-0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2 0.0 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_2_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.2 0.0 -0.7" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_2_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_1_1">
+    <inertial>
+      <origin xyz="0.01851625139495706 -1.3314793762482336e-08 0.09999999999999987" rpy="0 0 0"/>
+      <mass value="50.98628790042472"/>
+      <inertia ixx="0.23957" iyy="0.363708" izz="0.340669" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 -0.0 -0.6" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_1_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.0 -0.0 -0.6" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find mani)/meshes/link_1_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Slider_1" type="prismatic">
+    <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+    <parent link="link_7_1"/>
+    <child link="link_8_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit upper="0.025" lower="0.0" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Slider_2" type="prismatic">
+    <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+    <parent link="link_7_1"/>
+    <child link="link_9_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit upper="0.0" lower="-0.025" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Revolute_6" type="revolute">
+    <origin xyz="-0.03 0.0 -0.05" rpy="0 0 0"/>
+    <parent link="link_6_1"/>
+    <child link="link_7_1"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+    <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Revolute_5" type="revolute">
+    <origin xyz="0.03 0.0 -0.08" rpy="0 0 0"/>
+    <parent link="link_5_1"/>
+    <child link="link_6_1"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Revolute_4" type="revolute">
+    <origin xyz="0.0 0.0 -0.4" rpy="0 0 0"/>
+    <parent link="link_4_1"/>
+    <child link="link_5_1"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+    <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Revolute_3" type="revolute">
+    <origin xyz="-0.2 0.0 0.0" rpy="0 0 0"/>
+    <parent link="link_3_1"/>
+    <child link="link_4_1"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <limit upper="1.570796" lower="-4.712389" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Rigid_7" type="fixed">
+    <origin xyz="0.0 0.5 0.0" rpy="0 0 0"/>
+    <parent link="link_2_1"/>
+    <child link="link_3_1"/>
+  </joint>
+
+  <joint name="Revolute_2" type="revolute">
+    <origin xyz="0.2 -0.0 0.1" rpy="0 0 0"/>
+    <parent link="link_1_1"/>
+    <child link="link_2_1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="Revolute_1" type="revolute">
+    <origin xyz="0.0 0.0 0.6" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="link_1_1"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit upper="3.141593" lower="-3.141593" effort="100" velocity="100"/>
+  </joint>
+
+  <ros2_control name="mani_ros2_control" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="Revolute_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Revolute_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Revolute_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>-1.57</initial_position>
+    </joint>
+    <joint name="Revolute_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Revolute_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Revolute_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Slider_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+    <joint name="Slider_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <initial_position>0.0</initial_position>
+    </joint>
+  </ros2_control>
 </robot>

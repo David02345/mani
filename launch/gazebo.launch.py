@@ -18,7 +18,7 @@ def generate_launch_description():
     robot_controllers = "/home/ydg/mani_ws/src/mani/config/ros2_controllers.yaml"
 
     iiwa_simulation_world = PathJoinSubstitution(
-        [share_dir, 'worlds', 'empty.world']
+        [share_dir, 'world', 'empty.world']
     )
 
     # 로봇 상태 퍼블리셔
@@ -36,23 +36,59 @@ def generate_launch_description():
                     'launch', 'gazebo.launch.py']
             )]
         ),
-        launch_arguments={'verbose': 'false', 'world': iiwa_simulation_world}.items(),
+        launch_arguments={'verbose': 'false', 'world': "/home/ydg/mani_ws/src/mani/world/empty.world"}.items(),
     )
 
     # Gazebo에 URDF 스폰
     urdf_spawn_node = Node(
-    package='gazebo_ros',
-    executable='spawn_entity.py',
-    arguments=[
-        '-entity', '6dof_mani',
-        '-topic', 'robot_description',
-        '-x', '0.0',
-        '-y', '0.0',
-        '-z', '0.0' 
-    ],
-    output='screen'
-)
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-entity', '6dof_mani',
+            '-topic', 'robot_description',
+            '-x', '0.0',
+            '-y', '0.0',
+            '-z', '0.0' 
+        ],
+        output='screen'
+    )
 
+    table_spawner = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-entity', 'table',
+            '-file', '/home/ydg/mani_ws/src/mani/urdf/table.urdf',
+            '-x', '0.0',
+            '-y', '0.0',
+            '-z', '0.0' 
+        ],
+        output='screen'
+    )
+    box_spawner = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-entity', 'custom_box',
+            '-file', '/home/ydg/mani_ws/src/mani/urdf/box.urdf',
+            '-x', '0.6',
+            '-y', '0.6',
+            '-z', '0.33' 
+        ],
+        output='screen'
+    )
+    delay_table_spawner_after_urdf_spawn = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=urdf_spawn_node,
+            on_exit=[table_spawner],
+        )
+    )
+    delay_box_spawner_after_table_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=table_spawner,
+            on_exit=[box_spawner],
+        )
+    )
     # 컨트롤러 매니저 실행
     controller_manager = Node(
         package="controller_manager",
@@ -78,7 +114,18 @@ def generate_launch_description():
         arguments=['mani_arm_controller', '--controller-manager', '/controller_manager'],
     )
 
-    # 컨트롤러 스폰 순서 설정
+    # end_effector_controller 스포너
+    end_effector_controller_1_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['end_effector_controller_1', '--controller-manager', '/controller_manager'],
+    )
+    end_effector_controller_2_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['end_effector_controller_2', '--controller-manager', '/controller_manager'],
+    )
+
     delay_joint_state_controller_spawner_after_controller_manager = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=urdf_spawn_node,
@@ -93,11 +140,28 @@ def generate_launch_description():
         )
     )
 
+    delay_end_effector_controller_1_spawner_after_position_controller_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=position_controller_spawner,
+            on_exit=[end_effector_controller_1_spawner],
+        )
+    )
+    delay_end_effector_controller_2_spawner_after_end_effector_controller_1_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=end_effector_controller_1_spawner,
+            on_exit=[end_effector_controller_2_spawner],
+        )
+    )
+
     return LaunchDescription([
         robot_state_publisher_node,
         gazebo,
         urdf_spawn_node,
+        delay_table_spawner_after_urdf_spawn,
+        delay_box_spawner_after_table_spawner,
         # controller_manager,
         delay_joint_state_controller_spawner_after_controller_manager,
-        delay_position_controller_spawner_after_joint_state_controller_spawner
+        delay_position_controller_spawner_after_joint_state_controller_spawner,
+        delay_end_effector_controller_1_spawner_after_position_controller_spawner,
+        delay_end_effector_controller_2_spawner_after_end_effector_controller_1_spawner      
     ])
